@@ -54,21 +54,33 @@ body {
 .student-item {
   margin: 0 0 20px 0;
   padding: 0 0 20px 0;
-  border-bottom: 1px solid #eaeaea;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.student-details {
   text-align: center;
+  border-bottom: 1px solid #eaeaea;
 }
 
 .student-details .avatar {
   width: 40px;
   height: 40px;
-  border-radius: 20px;
+  border-radius: 50%;
+  border: 5px solid #fff;
+}
+
+.img-container {
+  position: relative;
+  z-index: 1;
+}
+.img-container::before {
+  content: '';
+  width: 56px;
+  height: 56px;
+  background: #5fa3fb;
+  background: linear-gradient(to right, #5fa3fb 0%,#7f78f7 100%);
+  border-radius: 50%;
+  position: absolute;
+  top: -3px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: -1;
 }
 
 .student-details h3 {
@@ -128,6 +140,7 @@ body {
   color: #fff;
 }
 
+
 @media screen and (min-width: 767px) {
   .page {
     margin: 50px auto;
@@ -147,6 +160,8 @@ body {
     margin-bottom: 0;
   }
   .student-item {
+    display: flex;
+    align-items: center;
     flex-direction: row;
     justify-content: space-between;
   }
@@ -163,6 +178,11 @@ body {
   .student-details .avatar {
     float: left;
     margin-right: 15px;
+  }
+  .img-container::before {
+    top: -3px;
+    left: -3px;
+    transform: initial;
   }
 }
 @media screen and (min-width: 991px) {
