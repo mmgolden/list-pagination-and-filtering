@@ -1,9 +1,11 @@
+/********************* General *********************/
 body {
   background: #f9f9f9;
   font-family: Helvetica, sans-serif;
   color: #222;
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
+  box-sizing: border-box;
 }
 
 .page {
@@ -14,6 +16,7 @@ body {
   padding: 50px;
 }
 
+/********************* Header *********************/
 .page-header {
   display: flex;
   flex-direction: column;
@@ -51,6 +54,7 @@ body {
   text-transform: uppercase;
 }
 
+/********************* Student List *********************/
 .student-item {
   margin: 0 0 20px 0;
   padding: 0 0 20px 0;
@@ -69,6 +73,7 @@ body {
   position: relative;
   z-index: 1;
 }
+
 .img-container::before {
   content: '';
   width: 56px;
@@ -93,10 +98,11 @@ body {
 .student-details .email {
   color: #888;
   font-size: 0.875rem;
+  margin: 0;
 }
 
 .joined-details .date {
-  margin-top: 15px;
+  margin-top: 5px;
   display: block;
   font-size: 0.875rem;
   color: #999;
@@ -108,6 +114,7 @@ body {
   border-bottom: none;
 }
 
+/********************* Pagination *********************/
 .pagination {
   margin: 40px 0 0 0;
   text-align: center;
@@ -140,12 +147,15 @@ body {
   color: #fff;
 }
 
-
+/********************* Media Queries *********************/
 @media screen and (min-width: 767px) {
+  /* General */
   .page {
     margin: 50px auto;
     width: 70%;
   }
+
+  /* Header */
   .page-header {
     flex-direction: row;
     justify-content: space-between;
@@ -159,21 +169,20 @@ body {
   .page-header .student-search input {
     margin-bottom: 0;
   }
-  .student-item {
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    justify-content: space-between;
-  }
-  .student-details {
-    flex-direction: row;
-  }
-  .joined-details {
-    margin-left: auto;
-  }
+
+  /* Student List */
   .student-details {
     width: 50%;
     text-align: left;
+    height: 20px;
+  }
+  .joined-details {
+    width: 50%;
+    float: right;
+    text-align: right;
+  }
+  .joined-details .date {
+    margin-top: 0;
   }
   .student-details .avatar {
     float: left;
@@ -186,6 +195,7 @@ body {
   }
 }
 @media screen and (min-width: 991px) {
+  /* Header */
   .page-header {
     margin-bottom: 30px;
   }
