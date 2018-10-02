@@ -51,22 +51,6 @@ function appendPageLinks(listItems, pageLength) {
     firstPageLink.className = 'active';
 }
 
-// Create pagination
-function pagination(list, target, pageLength) {
-
-    // Remove the active class from all links
-    const ul = target.parentNode.parentNode;
-    const li = Array.from(ul.childNodes);
-    li.forEach(item => item.firstElementChild.className = '');
-
-    // Add the active class to the selected link
-    target.className = 'active';
-
-    // Show the set of students that should be shown based on the page that was clicked
-    const pageNum = target.textContent;
-    showPage(list, pageNum, pageLength);
-}
-
 // Create search and append to the page
 function appendSearch() {
 
@@ -132,6 +116,8 @@ function search() {
         page.appendChild(message);
 
     }
+
+    return filtered;
 }
 
 // Removes pagination links and message from the page
@@ -146,15 +132,38 @@ function clear() {
     studentList.forEach(item => item.style.display = 'none');
 }
 
+// Show the set of list items
+function showSet(list, target, pageLength) {
+
+    console.log(target);
+
+    // Remove the active class from all links
+    const ul = target.parentNode.parentNode;
+    const li = Array.from(ul.childNodes);
+    li.forEach(item => item.firstElementChild.className = '');
+
+    // Add the active class to the selected link
+    target.className = 'active';
+
+    // Show the set of students that should be shown based on the page that was clicked
+    const pageNum = target.textContent;
+    showPage(list, pageNum, pageLength);
+}
+
 // When a pagination link is clicked
 page.addEventListener('click', function(event) {
 
     event.preventDefault();
     const target = event.target;
 
-    // If the event target is a link, create pagination
+    // If the event target is a link, show the set of the students that should be shown
     if (target.tagName === 'A') {
-        pagination(studentList, target, 10);
+
+        // If the filtered list from search is greater than 0 that show the filtered list set
+        // Otherwise show the student list set
+        const filteredList = search();
+        filteredList.length > 0 ? showSet(filteredList, target, 10) : showSet(studentList, target, 10);
+
     // If the event target is a button, perform search
     } else if (target.tagName === 'BUTTON') {
         search();
