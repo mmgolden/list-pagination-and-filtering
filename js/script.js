@@ -5,6 +5,7 @@ const pageHeader = document.querySelector('.page-header');
 
 // Hides all students except for the set that should be shown
 function showPage(list, page, pageLength) {
+
     // If the index is >= the index of the first item that should be shown
     // And the index is <= the index of the last item that should be shown then show those items
     // Otherwise, hide the items
@@ -19,10 +20,9 @@ function showPage(list, page, pageLength) {
 
 // Create and append the pagination links to the page
 function appendPageLinks(listItems, pageLength) {
+
     // If pagination exists, remove it
-    if (page.lastElementChild.className === 'pagination') {
-        page.removeChild(page.lastElementChild);
-    }
+    remove();
 
     // Calculate the number of pages needed
     const numOfPages = Math.ceil(listItems.length / pageLength);
@@ -49,11 +49,27 @@ function appendPageLinks(listItems, pageLength) {
     // Add the class of active to the first list item link
     const firstPageLink = document.querySelector('ul li a');
     firstPageLink.className = 'active';
-    
+}
+
+// Create pagination
+function pagination(list, target, pageLength) {
+
+    // Remove the active class from all links
+    const ul = target.parentNode.parentNode;
+    const li = Array.from(ul.childNodes);
+    li.forEach(item => item.firstElementChild.className = '');
+
+    // Add the active class to the selected link
+    target.className = 'active';
+
+    // Show the set of students that should be shown based on the page that was clicked
+    const pageNum = target.textContent;
+    showPage(list, pageNum, pageLength);
 }
 
 // Create search and append to the page
 function appendSearch() {
+
     // Create the search div
     const searchDiv = document.createElement('div');
     searchDiv.className = 'student-search';
@@ -70,25 +86,11 @@ function appendSearch() {
     searchDiv.appendChild(button);
 }
 
-// Create pagination
-function pagination(target, pageLength) {
-    // Remove the active class from all links
-    const ul = target.parentNode.parentNode;
-    const li = Array.from(ul.childNodes);
-    li.forEach(item => item.firstElementChild.className = '');
-
-    // Add the active class to the selected link
-    target.className = 'active';
-
-    // Show the set of students that should be shown based on the page that was clicked
-    const pageNum = target.textContent;
-    showPage(studentList, pageNum, pageLength);
-}
-
 // Search the list of students
-function search(target) {
+function search() {
+
     // Get the input value
-    const input = target.previousElementSibling;
+    const input = document.querySelector('input');
     const value = input.value.toLowerCase();
 
     // Empty array to hold filtered items
@@ -103,29 +105,76 @@ function search(target) {
         // If the name includes the value or the email includes the value, push the item to the filtered array
         if (name.includes(value) || email.includes(value)) {
             filtered.push(item);
-        }
+        } 
     });
 
-    appendPageLinks(filtered, 10);
-    console.log(filtered);
-    
+    if (filtered.length > 0) {
+
+        // Clear all items from the page
+        clear();
+
+        // Add pagination links
+        appendPageLinks(filtered, 10);
+        
+        // Only display the filtered items
+        showPage(filtered, 1, 10);
+
+    } else {
+
+        // Clear items from page
+        clear();
+        remove();
+
+        // Create and display message
+        const message = document.createElement('p');
+        message.className = 'message';
+        message.textContent = 'Sorry, no students were found.';
+        page.appendChild(message);
+
+    }
+}
+
+// Removes pagination links and message from the page
+function remove() {
+    if (page.lastElementChild.className === 'pagination' || page.lastElementChild.className === 'message') {
+        page.removeChild(page.lastElementChild);
+    }
+};
+
+// Clear all items from page
+function clear() {
+    studentList.forEach(item => item.style.display = 'none');
 }
 
 // When a pagination link is clicked
 page.addEventListener('click', function(event) {
+
     event.preventDefault();
     const target = event.target;
 
     // If the event target is a link, create pagination
     if (target.tagName === 'A') {
-        pagination(target, 10);
+        pagination(studentList, target, 10);
     // If the event target is a button, perform search
     } else if (target.tagName === 'BUTTON') {
-        search(target);
+        search();
     }
 });
 
+// When the enter key is pressed
+document.addEventListener('keypress', function(event) {
+    if (event.keyCode === 13 || event.which === 13) {
+        search();
+    }
+});
+
+// When the user is typing, display results
+document.addEventListener('keyup', function(event) {
+    search();
+});
+
 function init() {
+
     // Only show the first 10 students on page load
     showPage(studentList, 1, 10);
 

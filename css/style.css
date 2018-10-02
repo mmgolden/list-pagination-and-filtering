@@ -114,6 +114,12 @@ body {
   border-bottom: none;
 }
 
+.message {
+  text-align: center;
+  font-size: 21px;
+  color: #444;
+}
+
 /********************* Pagination *********************/
 .pagination {
   margin: 40px 0 0 0;
