@@ -134,16 +134,13 @@ function clear() {
 
 // Show the set of list items
 function showSet(list, target, pageLength) {
+    
+    // Get the links
+    const links = Array.from(document.querySelectorAll('.pagination ul li'));
 
-    console.log(target);
-
-    // Remove the active class from all links
-    const ul = target.parentNode.parentNode;
-    const li = Array.from(ul.childNodes);
-    li.forEach(item => item.firstElementChild.className = '');
-
-    // Add the active class to the selected link
-    target.className = 'active';
+    // If the link page number is the same as the target, change the class to active
+    // Otherwise remove the active class from the link
+    links.forEach(item => item.firstElementChild.textContent === target.textContent ? item.firstElementChild.className = 'active' : item.firstElementChild.className = '');
 
     // Show the set of students that should be shown based on the page that was clicked
     const pageNum = target.textContent;
