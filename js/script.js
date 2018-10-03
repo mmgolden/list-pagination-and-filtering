@@ -10,11 +10,7 @@ function showPage(list, page, pageLength) {
     // And the index is <= the index of the last item that should be shown then show those items
     // Otherwise, hide the items
     list.forEach((item, index) => {
-        if (index >= ((page - 1) * pageLength) && index <= (page * pageLength - 1)) {
-            item.style.display = 'block';
-        } else {
-            item.style.display = 'none';
-        }
+        (index >= ((page - 1) * pageLength) && index <= (page * pageLength - 1)) ? item.style.display = 'block' : item.style.display = 'none';
     });
 }
 
@@ -92,6 +88,7 @@ function search() {
         } 
     });
 
+    // If there are items in the filtered list
     if (filtered.length > 0) {
 
         // Clear all items from the page
